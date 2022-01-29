@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>图床变更-阿里云oss与picgo、typora联用搭建图床 | LanBox</title><meta name="keywords" content="PicGo,picgo,图床,imgbed,阿里云oss,typora"><meta name="author" content="城之内未知子"><meta name="copyright" content="城之内未知子"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在之前的博客《PicGo与SM.MS联用搭建图床》中提到，选择了sm.ms来作为个人图片存储的服务器，其优点是免费、容量基本满足前期需求，但是使用下来缺点也很明显：  数据安全不是很有保障，无法确定之后是否会出现数据丢失的情况 图片加载受限，加载速度偏慢，尤其在高峰时段会出现加载失败的情况 暂时只能存储图片，想要在网页中插入媒体（视频、音频等）会比较困难，且无更多自定义操作  因此综合下来决定寻找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图床变更-阿里云oss与picgo、typora联用搭建图床">
+<meta property="og:url" content="https://lanhbx.github.io/2022/01/29/%E5%9B%BE%E5%BA%8A%E5%8F%98%E6%9B%B4-%E9%98%BF%E9%87%8C%E4%BA%91oss%E4%B8%8Epicgo%E3%80%81typora%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/index.html">
+<meta property="og:site_name" content="LanBox">
+<meta property="og:description" content="在之前的博客《PicGo与SM.MS联用搭建图床》中提到，选择了sm.ms来作为个人图片存储的服务器，其优点是免费、容量基本满足前期需求，但是使用下来缺点也很明显：  数据安全不是很有保障，无法确定之后是否会出现数据丢失的情况 图片加载受限，加载速度偏慢，尤其在高峰时段会出现加载失败的情况 暂时只能存储图片，想要在网页中插入媒体（视频、音频等）会比较困难，且无更多自定义操作  因此综合下来决定寻找">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png">
+<meta property="article:published_time" content="2022-01-29T07:06:05.000Z">
+<meta property="article:modified_time" content="2022-01-29T08:25:16.551Z">
+<meta property="article:author" content="城之内未知子">
+<meta property="article:tag" content="PicGo">
+<meta property="article:tag" content="picgo">
+<meta property="article:tag" content="图床">
+<meta property="article:tag" content="imgbed">
+<meta property="article:tag" content="阿里云oss">
+<meta property="article:tag" content="typora">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lanhbx.github.io/2022/01/29/%E5%9B%BE%E5%BA%8A%E5%8F%98%E6%9B%B4-%E9%98%BF%E9%87%8C%E4%BA%91oss%E4%B8%8Epicgo%E3%80%81typora%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '图床变更-阿里云oss与picgo、typora联用搭建图床',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-29 16:25:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2022/01/27/cGKVnMyEv8stHuo.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 资料小屋List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movie/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/photo/"><i class="fa-fw fas fa-photo"></i><span> Photo</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">LanBox</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 资料小屋List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movie/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/photo/"><i class="fa-fw fas fa-photo"></i><span> Photo</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">图床变更-阿里云oss与picgo、typora联用搭建图床</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-29T07:06:05.000Z" title="发表于 2022-01-29 15:06:05">2022-01-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-29T08:25:16.551Z" title="更新于 2022-01-29 16:25:16">2022-01-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E7%BB%8F%E9%AA%8C/">技术经验</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E7%BB%8F%E9%AA%8C/%E5%8D%9A%E5%AE%A2/">博客</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="图床变更-阿里云oss与picgo、typora联用搭建图床"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在之前的博客<a href="https://lanhbx.github.io/2022/01/27/PicGo%E4%B8%8ESM-MS%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/">《PicGo与SM.MS联用搭建图床》</a>中提到，选择了sm.ms来作为个人图片存储的服务器，其优点是免费、容量基本满足前期需求，但是使用下来缺点也很明显：</p>
+<ol>
+<li>数据安全不是很有保障，无法确定之后是否会出现数据丢失的情况</li>
+<li>图片加载受限，加载速度偏慢，尤其在高峰时段会出现加载失败的情况</li>
+<li>暂时只能存储图片，想要在网页中插入媒体（视频、音频等）会比较困难，且无更多自定义操作</li>
+</ol>
+<p>因此综合下来决定寻找更好的解决方法，先后查看了阿里云oss和腾讯云cos的方案，由于自己会做一些物联网的小制作自娱自乐，阿里云在这方面有较多框架便于使用，因此本着尽量减少管理成本的想法，选择了阿里云，并且费用目前来看也很便宜，基础标准包的资费仅需9块一年（50g），新用户有三个月的免费使用权，正好适合学习试错阶段折腾！</p>
+<h2 id="阿里云oss购买"><a href="#阿里云oss购买" class="headerlink" title="阿里云oss购买"></a>阿里云oss购买</h2><p>在阿里云官网选择合适的套餐进行购买，我自己选择的是新用户免费标准包，之后应该会续费最便宜的标准包，<a target="_blank" rel="noopener" href="https://www.aliyun.com/product/oss?spm=5176.19720258.J_8058803260.34.274e2c4aJwXTv5">购买网址</a></p>
+<h2 id="阿里云oss配置"><a href="#阿里云oss配置" class="headerlink" title="阿里云oss配置"></a>阿里云oss配置</h2><p>从侧边栏找到对象存储oss，在购买的阿里云oss中创建一个新的bucket，自定义名字，注意关键是读写权限一定要置为公共读，这样其他人访问网站时才能顺利显示图片，其他均默认即可。</p>
+<p><img src="https://lan-img.oss-cn-shanghai.aliyuncs.com/img_blog/image-20220129160424573.png" alt="image-20220129160424573"></p>
+<p>创建完成后，在工作台中找到文件管理，在此处可以自己管理文件夹的层级，做好分类分区，接下来是非常重要的一步，点击”授权“，若设置过子用户，则<strong>给子用户授予完全控制的权限</strong>，才能够顺利的上传图片！</p>
+<p><img src="https://lan-img.oss-cn-shanghai.aliyuncs.com/img_blog/image-20220129160957725.png" alt="image-20220129160957725"></p>
+<h2 id="picgo配置"><a href="#picgo配置" class="headerlink" title="picgo配置"></a>picgo配置</h2><p>在picgo软件中找到阿里云oss图床，打开后现实需要填写以下内容：</p>
+<p><img src="https://lan-img.oss-cn-shanghai.aliyuncs.com/img_blog/image-20220129161158100.png"></p>
+<p>Keyid和Keysecret可以在阿里云的个人中心找到：</p>
+<p><img src="https://lan-img.oss-cn-shanghai.aliyuncs.com/img_blog/image-20220129161308256.png" alt="image-20220129161308256"></p>
+<p>跟随引导创建完成后会弹出 KeyID 和 KeySecret ，这里最好将其复制到记事本中存在电脑里，之后要找到这个页面比较困难。</p>
+<p>存储空间名就是我们之前创建的bucket的名字，存储区域在oss的控制台可以查看：（aliyuncs.com需要去掉）</p>
+<p><img src="https://lan-img.oss-cn-shanghai.aliyuncs.com/img_blog/image-20220129161609792.png" alt="image-20220129161609792"></p>
+<p>存储路径自己定义就好，如果以“/”结尾，在这里填写可以在阿里云自动创建对应的文件夹，如果没有“/”则会为上传的图片加上对应前缀。</p>
+<p>至此即可快乐地向picgo里上传文件存到阿里云oss的bucket中了！</p>
+<h2 id="Typora-自动上传图片设置"><a href="#Typora-自动上传图片设置" class="headerlink" title="Typora 自动上传图片设置"></a>Typora 自动上传图片设置</h2><p>但是如果我们使用vscode进行md的编写，插入图片是一件非常痛苦的事情，但typora可以使用复制粘贴直接插入剪贴板中的图片（如截屏文件），因此选择使用Typora进行博客书写，进行以下配置使得插入图片后自动上传到云端并改变插入链接：</p>
+<p><img src="https://lan-img.oss-cn-shanghai.aliyuncs.com/img_blog/image-20220129162352403.png" alt="image-20220129162352403"></p>
+<p>设置完成后每次插入图片就会自动上传到picgo和aliyun，书写体验拉满！</p>
+<p>之后会继续探索一下阿里云oss提供的接口服务~</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">城之内未知子</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lanhbx.github.io/2022/01/29/%E5%9B%BE%E5%BA%8A%E5%8F%98%E6%9B%B4-%E9%98%BF%E9%87%8C%E4%BA%91oss%E4%B8%8Epicgo%E3%80%81typora%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/">https://lanhbx.github.io/2022/01/29/%E5%9B%BE%E5%BA%8A%E5%8F%98%E6%9B%B4-%E9%98%BF%E9%87%8C%E4%BA%91oss%E4%B8%8Epicgo%E3%80%81typora%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lanhbx.github.io" target="_blank">LanBox</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/PicGo/">PicGo</a><a class="post-meta__tags" href="/tags/picgo/">picgo</a><a class="post-meta__tags" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a><a class="post-meta__tags" href="/tags/imgbed/">imgbed</a><a class="post-meta__tags" href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91oss/">阿里云oss</a><a class="post-meta__tags" href="/tags/typora/">typora</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/27/hexo%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E7%AE%80%E4%BB%8B/"><img class="next-cover" src="https://s2.loli.net/2022/01/27/saG6IWn9MA3kbUu.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">hexo框架配置简介</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/27/PicGo%E4%B8%8ESM-MS%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/" title="PicGo与SM.MS联用搭建图床"><img class="cover" src="https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-27</div><div class="title">PicGo与SM.MS联用搭建图床</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2022/01/27/cGKVnMyEv8stHuo.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">城之内未知子</div><div class="author-info__description">生活记录/技术分享/学习笔记</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/LanHBX" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2386874144@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%BF%E9%87%8C%E4%BA%91oss%E8%B4%AD%E4%B9%B0"><span class="toc-number">1.</span> <span class="toc-text">阿里云oss购买</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%BF%E9%87%8C%E4%BA%91oss%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">阿里云oss配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#picgo%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">picgo配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Typora-%E8%87%AA%E5%8A%A8%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">Typora 自动上传图片设置</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/29/%E5%9B%BE%E5%BA%8A%E5%8F%98%E6%9B%B4-%E9%98%BF%E9%87%8C%E4%BA%91oss%E4%B8%8Epicgo%E3%80%81typora%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/" title="图床变更-阿里云oss与picgo、typora联用搭建图床"><img src="https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图床变更-阿里云oss与picgo、typora联用搭建图床"/></a><div class="content"><a class="title" href="/2022/01/29/%E5%9B%BE%E5%BA%8A%E5%8F%98%E6%9B%B4-%E9%98%BF%E9%87%8C%E4%BA%91oss%E4%B8%8Epicgo%E3%80%81typora%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/" title="图床变更-阿里云oss与picgo、typora联用搭建图床">图床变更-阿里云oss与picgo、typora联用搭建图床</a><time datetime="2022-01-29T07:06:05.000Z" title="发表于 2022-01-29 15:06:05">2022-01-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/27/hexo%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E7%AE%80%E4%BB%8B/" title="hexo框架配置简介"><img src="https://s2.loli.net/2022/01/27/saG6IWn9MA3kbUu.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hexo框架配置简介"/></a><div class="content"><a class="title" href="/2022/01/27/hexo%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E7%AE%80%E4%BB%8B/" title="hexo框架配置简介">hexo框架配置简介</a><time datetime="2022-01-27T04:11:26.000Z" title="发表于 2022-01-27 12:11:26">2022-01-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/27/PicGo%E4%B8%8ESM-MS%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/" title="PicGo与SM.MS联用搭建图床"><img src="https://s2.loli.net/2022/01/27/ZkSxyWogltGzBMX.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PicGo与SM.MS联用搭建图床"/></a><div class="content"><a class="title" href="/2022/01/27/PicGo%E4%B8%8ESM-MS%E8%81%94%E7%94%A8%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/" title="PicGo与SM.MS联用搭建图床">PicGo与SM.MS联用搭建图床</a><time datetime="2022-01-27T04:02:57.000Z" title="发表于 2022-01-27 12:02:57">2022-01-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/26/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" title="HEXO 博客搭建（1）本地初始化与发布"><img src="https://s2.loli.net/2022/01/27/3iQEXYfhn1esOKp.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HEXO 博客搭建（1）本地初始化与发布"/></a><div class="content"><a class="title" href="/2022/01/26/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" title="HEXO 博客搭建（1）本地初始化与发布">HEXO 博客搭建（1）本地初始化与发布</a><time datetime="2022-01-26T13:49:46.000Z" title="发表于 2022-01-26 21:49:46">2022-01-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://s2.loli.net/2022/01/29/aL1VW7DT8vOEIgk.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 城之内未知子</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
